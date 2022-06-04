@@ -1,13 +1,16 @@
 from flask import Flask, render_template, make_response, redirect
 from flask_socketio import SocketIO, send, emit
-import os
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins=['http://localhost:3000','https://nabify.com','https://www.nabify.com'])
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
+
+@socketio.on("connect")
+def printConnect():
+    print("CONNECTED")
 
 @socketio.on("message")
 def handleMessage(data):
